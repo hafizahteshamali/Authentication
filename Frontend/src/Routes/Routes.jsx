@@ -17,7 +17,7 @@ export const RoutesData = [
         element: <ForgotPasswordForm />
     },
     {
-        path: '/reset-password/:token',
+        path: '/resetpassword/:token',
         element: <ResetPassword />
     }
 ]

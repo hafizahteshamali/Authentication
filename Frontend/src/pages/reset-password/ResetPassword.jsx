@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { PostReq } from '../../Api/axios';
 
 const ResetPassword = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -9,14 +10,20 @@ const ResetPassword = () => {
     const [message, setMessage] = useState('');
     const {token} = useParams()
 
-    const onSubmit = (data) => {
-        if (data.newPassword !== data.confirmPassword) {
-            setMessage('Passwords do not match!');
+    const onSubmit = async(data) => {
+        if(data.newPassword !== data.confirmPassword) {
+            setMessage("Passwords do not match.");
             return;
         }
-
-        // Replace with your API call or logic for resetting the password
-        setMessage('Password successfully reset.');
+        try {
+            const datawithtoken = { ...data, token: token }
+            const response = await PostReq('/resetpassword/', datawithtoken)
+            console.log(response);
+            setMessage("Password reset successfully.");
+        } catch (error) {
+            setMessage("An error occurred while resetting the password.");
+            console.log(error.message);
+        }
     };
 
     return (
