@@ -16,8 +16,10 @@ const ResetPassword = () => {
             return;
         }
         try {
-            const datawithtoken = { ...data, token: token }
-            const response = await PostReq('/resetpassword/', datawithtoken)
+            const response = await PostReq(`/reset-password/${token}`, {
+                newPassword: data.newPassword,
+                confirmPassword: data.confirmPassword,
+            })
             console.log(response);
             setMessage("Password reset successfully.");
         } catch (error) {

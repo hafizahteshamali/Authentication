@@ -96,17 +96,22 @@ const ForgotPasswordController = ('/', async(req, res)=>{
 
         await UserFound.save();
 
-       await sendResetEmail(Email, `http://localhost:5173/resetpassword/${token}`);
+        const resetLink = `http://localhost:5173/resetpassword/${token}`;
+
+       await sendResetEmail(Email, resetLink);
+
+       res.status(200).json({status: 200, message: "password reset email send successfully"});
     } catch (error) {
-        console.log(error.message);
+        res.status(500).send({ status: 500, message: "Internal Server Error", error: error.message });
     }
 })
 
 
 const ResetPasswordController = ('/', async(req, res)=>{
     try {
-        const { newPassword, confirmPassword, token } = req.body;
-        if(!newPassword || !confirmPassword){
+        const { newPassword, confirmPassword } = req.body;
+        const token = req.params.token; 
+        if(!newPassword || !confirmPassword || !token){
             return res.status(400).send({status: 400, message: "all inputs are required"})
         }
         if(newPassword !== confirmPassword){

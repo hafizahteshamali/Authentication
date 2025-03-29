@@ -7,4 +7,4 @@ AuthRoutes.post('/signup', SignupController);
 AuthRoutes.post('/login', LoginController);
 AuthRoutes.post('/logout', LogoutController);
 AuthRoutes.post('/forgot-password', ForgotPasswordController);
-AuthRoutes.post('/reset-password', ResetPasswordController);
+AuthRoutes.post('/reset-password/:token', ResetPasswordController);
