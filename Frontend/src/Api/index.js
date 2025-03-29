@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ApiClients = axios.create({
-    baseURL: "https://authentication-lake-one.vercel.app/auth/api",
+    baseURL: "https://authentication-git-main-ahteshamalis-projects.vercel.app/auth/api",
     timeout: 9000,
     headers:{
         "Content-Type": "application/json"

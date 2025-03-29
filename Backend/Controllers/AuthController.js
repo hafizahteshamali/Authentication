@@ -96,7 +96,7 @@ const ForgotPasswordController = ('/', async(req, res)=>{
 
         await UserFound.save();
 
-        const resetLink = `https://authentication-7gg2.vercel.app/resetpassword/${token}`;
+        const resetLink = `http://localhost:5173/resetpassword/${token}`;
 
        await sendResetEmail(Email, resetLink);
 
