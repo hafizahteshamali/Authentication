@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { PostReq } from "../../Api/axios.js";
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
 
   const {
@@ -14,32 +13,31 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await PostReq('/login', data);
-      console.log(data);
-      console.log(response);
+      const response = await PostReq("/login", data);
+
+      if (response?.status === 200) {
+        console.log("Login Successful:", response.data);
+        navigate("/dashboard"); // Redirect user after login
+      } else {
+        console.error("Login Failed:", response);
+      }
     } catch (error) {
-      console.log(error.message)
+      console.error("Login Error:", error.message);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Login
-        </h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Email Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               className={`w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-2 ${
-                errors.Email
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+                errors.Email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
               }`}
               placeholder="Enter your email"
               {...register("Email", {
@@ -50,22 +48,16 @@ const LoginForm = () => {
                 },
               })}
             />
-            {errors.Email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-            )}
+            {errors.Email && <p className="mt-1 text-sm text-red-500">{errors.Email.message}</p>}
           </div>
 
           {/* Password Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
               className={`w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-2 ${
-                errors.Password
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+                errors.Password ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
               }`}
               placeholder="Enter your password"
               {...register("Password", {
@@ -76,21 +68,15 @@ const LoginForm = () => {
                 },
               })}
             />
-            {errors.Password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
-            )}
+            {errors.Password && <p className="mt-1 text-sm text-red-500">{errors.Password.message}</p>}
           </div>
 
           {/* Role Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Role
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Role</label>
             <select
               className={`w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-2 ${
-                errors.Role
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+                errors.Role ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
               }`}
               {...register("Role", { required: "Role is required" })}
             >
@@ -98,9 +84,7 @@ const LoginForm = () => {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-            {errors.Role && (
-              <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>
-            )}
+            {errors.Role && <p className="mt-1 text-sm text-red-500">{errors.Role.message}</p>}
           </div>
 
           {/* Submit Button */}
@@ -114,16 +98,10 @@ const LoginForm = () => {
 
         {/* Additional Links */}
         <div className="flex justify-between mt-4">
-          <a
-            href="/forgotpassword"
-            className="text-sm text-blue-500 hover:underline"
-          >
+          <a href="/forgotpassword" className="text-sm text-blue-500 hover:underline">
             Forgot Password?
           </a>
-          <a
-            href="/create-account"
-            className="text-sm text-blue-500 hover:underline"
-          >
+          <a href="/create-account" className="text-sm text-blue-500 hover:underline">
             Create Account
           </a>
         </div>

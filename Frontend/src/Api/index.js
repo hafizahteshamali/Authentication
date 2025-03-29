@@ -1,18 +1,21 @@
 import axios from 'axios';
 
 const ApiClients = axios.create({
-    baseURL: "https://authentication-git-main-ahteshamalis-projects.vercel.app/auth/api",
+    baseURL: "http://localhost:5173/auth/api",
     timeout: 9000,
-    headers:{
+    headers: {
         "Content-Type": "application/json"
     }
-})
+});
 
-
-ApiClients.interceptors.response.use((response)=>{
-    return response;
-},(error)=>{
-    return error;
-})
+// Response Interceptor
+ApiClients.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        return Promise.reject(error); // Correct way to handle errors
+    }
+);
 
 export default ApiClients;

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import {PostReq} from "../../Api/axios.js";
+import { PostReq } from "../../Api/axios.js";
 
 const SignupForm = () => {
   const {
@@ -12,10 +12,10 @@ const SignupForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await PostReq('/signup', data);
-      console.log(response)
+      console.log(response);
       reset();
     } catch (error) {
-      console.log(error)
+      console.error("Signup Error:", error);
     }
   };
 
@@ -48,7 +48,7 @@ const SignupForm = () => {
               })}
             />
             {errors.Name && (
-              <p className="mt-1 text-sm text-red-500">{errors.username.message}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.Name.message}</p>
             )}
           </div>
 
@@ -74,7 +74,7 @@ const SignupForm = () => {
               })}
             />
             {errors.Email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.Email.message}</p>
             )}
           </div>
 
@@ -99,8 +99,8 @@ const SignupForm = () => {
                 },
               })}
             />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+            {errors.Password && (
+              <p className="mt-1 text-sm text-red-500">{errors.Password.message}</p>
             )}
           </div>
 
@@ -117,10 +117,7 @@ const SignupForm = () => {
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <a
-              href="/"
-              className="text-blue-500 hover:underline"
-            >
+            <a href="/" className="text-blue-500 hover:underline">
               Login
             </a>
           </p>

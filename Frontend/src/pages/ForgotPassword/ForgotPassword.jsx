@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { PostReq } from "../../Api/axios";
 
 const ForgotPasswordForm = () => {
+  const [message, setMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -9,12 +11,18 @@ const ForgotPasswordForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-      try {
-       const response =  await PostReq('/forgot-password', data)
-       console.log(response);
-      } catch (error) {
-        console.log(error);
+    try {
+      const response = await PostReq("/forgot-password", data);
+
+      if (response?.status === 200) {
+        setMessage("Password reset instructions sent to your email.");
+      } else {
+        setMessage("Failed to send reset instructions. Try again.");
       }
+    } catch (error) {
+      console.error("Error:", error.message);
+      setMessage("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -26,18 +34,21 @@ const ForgotPasswordForm = () => {
         <p className="text-sm text-center text-gray-600 mb-4">
           Enter your registered email to reset your password.
         </p>
+
+        {message && (
+          <p className="text-center text-sm text-blue-600 bg-blue-100 p-2 rounded mb-4">
+            {message}
+          </p>
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Email Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               className={`w-full px-4 py-2 mt-1 border rounded focus:outline-none focus:ring-2 ${
-                errors.Email
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
+                errors.Email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
               }`}
               placeholder="Enter your email"
               {...register("Email", {
@@ -48,9 +59,7 @@ const ForgotPasswordForm = () => {
                 },
               })}
             />
-            {errors.Email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-            )}
+            {errors.Email && <p className="mt-1 text-sm text-red-500">{errors.Email.message}</p>}
           </div>
 
           {/* Submit Button */}
